@@ -1,0 +1,27 @@
+# behat.yml 
+default:
+  suites:
+    default:
+      paths:
+        features: '%paths.base%/features'
+        bootstrap: '%paths.base%/features/bootstrap'
+      contexts:
+        - FeatureContext:
+            parameters:    
+              environment_demo: 'https://my:d-river@demo.mydriver-international.com/cms'
+              enviroment_staging: 'https://my:d-river@staging.mydriver-international.com/cms'
+              user_admin_name: 'admin@mydriver.com'
+              user_admin_password: 'password'
+        - cmsCategory:
+            parameters:  
+              environment_demo: 'https://my:d-river@demo.mydriver-international.com/cms'
+              enviroment_staging: 'https://my:d-river@staging.mydriver-international.com/cms'
+              user_admin_name: 'admin@mydriver.com'
+              user_admin_password: 'password'
+  extensions:
+      Behat\MinkExtension:
+            base_url: ''
+            javascript_session: selenium2
+            browser_name: firefox
+            goutte: ~
+            selenium2: ~
