@@ -1,0 +1,1 @@
+# behat_mink_tests
