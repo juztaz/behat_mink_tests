@@ -21,5 +21,28 @@ Feature: CMS Category
   @mink:selenium2
   Scenario: Create new category
     When I go to "/#/category/new" page
+    And I fill in "general_slugInput" with "atp-category-slug"
+    Then I click "EN" tab
+    And I fill in "en_titleInput" with "ATP Category Title EN"
+    And I fill in "en_slugInput" with "atp-category-slug-en"
+    Then I click "DE" tab
+    And I fill in "de_titleInput" with "ATP Category Title DE"
+    And I fill in "de_slugInput" with "atp-category-slug-de"
+    Then I click "ES" tab
+    And I fill in "es_titleInput" with "ATP Category Title ES"
+    And I fill in "es_slugInput" with "atp-category-slug-es"
+    Then I click "IT" tab
+    And I fill in "it_titleInput" with "ATPCategory Title IT"
+    And I fill in "it_slugInput" with "atp-category-slug-it"
+    Then I click "FR" tab
+    And I fill in "fr_titleInput" with "ATP Category Title FR"
+    And I fill in "fr_slugInput" with "atp-category-slug-fr"
+    And I press "Save"
+    Then I should see notification with "Data saved successfully"
 
-
+  @mink:selenium2
+  Scenario: Edit existing category
+    When I click "Categories"
+    And I click "edit" for "ATP Category Title EN" property
+    
+      
