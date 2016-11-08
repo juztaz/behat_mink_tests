@@ -1,4 +1,5 @@
 <?php
+
 // To do: for all switches add default when none of expected values are got, throw exceptio maybe?
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
@@ -252,25 +253,23 @@ class FeatureContext extends MinkContext {
     }
 
     /**
-    * @When in confirmation window I click :arg1
-    */
-    public function inConfirmationWindowIClick($arg1)
-    {
+     * @When in confirmation window I click :arg1
+     */
+    public function inConfirmationWindowIClick($arg1) {
         $session = $this->getSession();
         $session->wait(1000);
         $page = $session->getPage();
-        
+
         $actionButton = $page->find('xpath', $session->getSelectorsHandler()->selectorToXpath
-                                ('xpath', "//sg-modal-confirm//div[@class='modal-footer']/button[text()='" . $arg1 . "']"));
+                        ('xpath', "//sg-modal-confirm//div[@class='modal-footer']/button[text()='" . $arg1 . "']"));
 
         $actionButton->click();
     }
 
     /**
-    * @Then I should :arg1 :arg2 in the list
-    */
-    public function iShouldInTheList($arg1, $arg2)
-    {
+     * @Then I should :arg1 :arg2 in the list
+     */
+    public function iShouldInTheList($arg1, $arg2) {
         $this->getSession()->wait(1000);
         $session = $this->getSession();
         $page = $session->getPage();
