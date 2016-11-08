@@ -1,5 +1,5 @@
 <?php
-
+// To do: for all switches add default when none of expected values are got, throw exceptio maybe?
 use Behat\Behat\Context\ClosuredContextInterface,
     Behat\Behat\Context\TranslatedContextInterface,
     Behat\Behat\Context\BehatContext,
@@ -230,14 +230,15 @@ class FeatureContext extends MinkContext {
             case 'edit':
                 $actionIcon = $page->find('xpath', $session->getSelectorsHandler()->selectorToXpath
                                 ('xpath', "//table//tr[td//text()[contains(., '" . $arg2 . "')]]//span[contains(@class, 'glyphicon-edit')]"));
+                $actionIcon->click();
+                $this->verifyStaticPropertyEdit($defaultSlug);
                 break;
             case 'delete':
                 $actionIcon = $page->find('xpath', $session->getSelectorsHandler()->selectorToXpath
                                 ('xpath', "//table//tr[td//text()[contains(., '" . $arg2 . "')]]//span[contains(@class, 'glyphicon-trash')]"));
+                $actionIcon->click();
                 break;
         }
-        $actionIcon->click();
-        $this->verifyStaticPropertyEdit($defaultSlug);
     }
 
     public function verifyStaticPropertyEdit($defaultSlug) {
@@ -248,6 +249,44 @@ class FeatureContext extends MinkContext {
         $actualSlug = $session->evaluateScript('document.getElementById("general_slugInput").value;');
 
         Assertion::true($defaultSlug === $actualSlug, 'Correct edit page of static property was not opened.');
+    }
+
+    /**
+    * @When in confirmation window I click :arg1
+    */
+    public function inConfirmationWindowIClick($arg1)
+    {
+        $session = $this->getSession();
+        $session->wait(1000);
+        $page = $session->getPage();
+        
+        $actionButton = $page->find('xpath', $session->getSelectorsHandler()->selectorToXpath
+                                ('xpath', "//sg-modal-confirm//div[@class='modal-footer']/button[text()='" . $arg1 . "']"));
+
+        $actionButton->click();
+    }
+
+    /**
+    * @Then I should :arg1 :arg2 in the list
+    */
+    public function iShouldInTheList($arg1, $arg2)
+    {
+        $this->getSession()->wait(1000);
+        $session = $this->getSession();
+        $page = $session->getPage();
+
+        switch ($arg1) {
+            case 'see':
+                $staticProperty = $page->find('xpath', $session->getSelectorsHandler()->selectorToXpath
+                                ('xpath', "//table//tr[td//text()[contains(., '" . $arg2 . "')]]"));
+                Assertion::true($staticProperty !== null);
+                break;
+            case 'not see':
+                $staticProperty = $page->find('xpath', $session->getSelectorsHandler()->selectorToXpath
+                                ('xpath', "//table//tr[td//text()[contains(., '" . $arg2 . "')]]"));
+                Assertion::true($staticProperty === null);
+                break;
+        }
     }
 
 }

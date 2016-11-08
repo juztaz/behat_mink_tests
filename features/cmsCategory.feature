@@ -44,5 +44,18 @@ Feature: CMS Category
   Scenario: Edit existing category
     When I click "Categories"
     And I click "edit" for "ATP Category Title EN" property
+    Then I fill in "general_slugInput" with "atp-category-slug-edited"
+    And I press "Save"
+    Then I should see notification with "Data saved successfully"
+
+  @mink:selenium2
+  Scenario: Delete existing category
+    When I click "Categories"
+    And I click "delete" for "ATP Category Title EN" property
+    And in confirmation window I click "Cancel"
+    Then I should "see" "ATP Category Title EN" in the list
+    And I click "delete" for "ATP Category Title EN" property
+    And in confirmation window I click "Yes"
+    Then I should "not see" "ATP Category Title EN" in the list
     
       
